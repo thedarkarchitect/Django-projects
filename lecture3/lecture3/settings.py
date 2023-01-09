@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     #This monitors the apps created
     'hello',
     'newyear',
+    'tasks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
