@@ -10,10 +10,12 @@ def index(request):
             title = request.POST['title'] #saving what is input in the variable title
         )
         new_todo.save()
-        return render(request, "todo/index.html",{'todos':todo})
+        # return render(request, "todo/index.html",{'todos':todo})
+        return redirect('/')
     return render(request, "todo/index.html", {'todos':todo})
 
 def delete(request, pk):
-    todo = Todo.objects.get(id=pk)
-    todo.delete()
+    todo = Todo.objects.all()
+    del_todo = Todo.objects.get(id=pk)#This looks for object id you clicked on and then looks to delete it
+    del_todo.delete()#This deletes from the db
     return redirect('/')
