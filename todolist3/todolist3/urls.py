@@ -18,5 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('base.urls'))
+    path('', include('base.urls'))#all the urls of the base app are stored here to be known by the whole application
 ]

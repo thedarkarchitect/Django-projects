@@ -9,7 +9,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin#this retricts the user that enter the page
 
 # Create your views here.
-class CustomLoginView(LoginView):
+class LoginViewPage(LoginView):
     template_name = 'base/login.html'
     fields = '__all__'
     redirect_authenticated_user = True
@@ -18,7 +18,7 @@ class CustomLoginView(LoginView):
         return reverse_lazy('tasks')
 
 class TaskList(LoginRequiredMixin, ListView):#this view displays the database contents
-    model = Task
+    model = Task#This is the database
     context_object_name = 'tasks'#this allows us to tap into the database using the context name as a variable('tasks')
 
 
