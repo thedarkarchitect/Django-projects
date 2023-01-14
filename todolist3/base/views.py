@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Task
 from django.urls import reverse_lazy #helps redirect too aspecific page after submission of a 
 
@@ -21,3 +21,13 @@ class TaskCreate(CreateView):#this views allows user to create an item then save
     model = Task
     fields = '__all__'
     success_url = reverse_lazy('tasks') #redirects user to the tasks page after creation of task
+
+class TaskUpdate(UpdateView):#similar to the create view but all it does return the model prefilled for edittin
+    model = Task
+    fields = '__all__'
+    success_url = reverse_lazy('tasks')
+
+class DeleteView(DeleteView):
+    model = Task
+    context_object_name = 'task'
+    success_url = reverse_lazy('tasks')
