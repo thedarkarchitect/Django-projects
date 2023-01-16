@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
@@ -19,10 +19,21 @@ class LoginViewPage(LoginView):
         return reverse_lazy('tasks')#this is a method that redirects the registered user to the tasks page url
 
 class RegisterForm(FormView):
-    template_name = 'base/register'
+    template_name = 'base/register.html'
     form_class = UserCreationForm
     redirect_authenticated_user = True
     success_url = reverse_lazy('tasks')
+
+    def form_valid(self, form):
+        user = form.save()
+        if user is not None:#if the user registe is successful
+            login(self.request, user)
+        return super(RegisterForm, self).form_valid(form)#redirects user to the tasks page
+
+    def get(self, *args, **kwargs):#this overrides the redirect_authenticated user incase it doesn't work
+        if self.request.user.is_authenticated:
+            return redirect('tasks')#if the user is logged in they are redirected and restricted to the tasks page
+        return super(RegisterForm, self).get(*args, **kwargs)#this makes the page continue with what it's meant to do
 
     
 
