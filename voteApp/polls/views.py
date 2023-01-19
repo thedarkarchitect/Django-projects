@@ -43,3 +43,14 @@ def vote(request, question_id):#vote for questino choices available
         #with Post data. this prevents data from being posted twice if a user hit the back button
         return HttpResponseRedirect(reverse('polls:results', args=(question.id)))
 
+def resultsdata(request, obj):
+    votedata = []
+
+    question = Questions.objects.get(id=obj)
+    votes = question.choice_set.all()
+    
+    for i in votes:
+        votedata.append({i.choice_text: i.votes})
+    
+    return JsonResponse(votedata, safe=False)
+   
