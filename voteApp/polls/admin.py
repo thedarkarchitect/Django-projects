@@ -2,4 +2,4 @@ from django.contrib import admin
 from .models import Questions, Choices
 
 # Register your models here.
-admin.site.regirster(Questions)
+admin.site.register(Questions)
