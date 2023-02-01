@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.forms import inlineformset_factory
 from .models import *
 from .forms import OrderForm
+from .filters import OrderFilter
 
 # Create your views here.
 def index(request):
@@ -32,25 +34,32 @@ def products(request):
 def customer(request, pk):
     customer = Customer.objects.get(id=pk)
     orders = customer.order_set.all()#this will show the orders of the customer with the id
+    myfilter = OrderFilter(request.GET, queryset=orders)
+    orders = myfilter.qs #this will allow the orders to be searched using qs(queryset)
 
     context = {
         'customer': customer,
-        'orders': orders
+        'orders': orders,
+        'myfilter': myfilter
     }
     return render(request, 'accounts/customer.html', context)
 
 def createOrder(request, pk):
+    OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=6)#extra shows the number of the fields shown
+
     customer = Customer.objects.get(id=pk)
-    form = OrderForm()
+    formset = OrderFormSet(queryset=Order.objects.none() ,instance=customer)#queryset here will show only new fields without previous orders
+    # form = OrderForm()
 
     if request.method == 'POST': #this checks if the method of the form is actually POST
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            form.save()
+        # form = OrderForm(request.POST)
+        formset = OrderFormSet(request.POST, instance=customer)
+        if formset.is_valid():
+            formset.save()
             return redirect('/')
 
     context = {
-        'form' : form,
+        'formset' : formset,
         'customer': customer
     }
 

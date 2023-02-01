@@ -9,24 +9,16 @@
             <br>
             <form action="" method="POST">
                 {% csrf_token%}
-                {{form}}
+
+                <!-- this manages the data entered in the form so it can be sent differently since it's in a for loop without a for loop it would be sent normally -->
+                {{ formset.management_form }}
+                {% for form in formset %}
+                    {{form}}
+                    <hr>
+                {% endfor %}
                 <input type="submit" name="Submit">
             </form>
-            <form action="" method="POST">
-                {% csrf_token%}
-                {{form}}
-                <input type="submit" name="Submit">
-            </form>
-            <form action="" method="POST">
-                {% csrf_token%}
-                {{form}}
-                <input type="submit" name="Submit">
-            </form>
-            <form action="" method="POST">
-                {% csrf_token%}
-                {{form}}
-                <input type="submit" name="Submit">
-            </form>
+            
         </div>
     </div>
 
