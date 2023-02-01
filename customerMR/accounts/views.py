@@ -55,8 +55,30 @@ def createOrder(request):
     return render(request, 'accounts/order_form.html', context)
 
 def updateOrder(request, pk):
-    form = OrderForm()
+    order = Order.objects.get(id=pk)
+    form = OrderForm(instance=order)#this to populate the form using the item clicked on
+    
+    if request.method == "POST":
+        form = OrderForm(request.POST, instance=order)#if the form is Posted with the prepopulate order information and its satisfactory
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
     context = {
         'form':form
     }
     return render(request, 'accounts/order_form.html', context)
+
+def delete(request, pk):
+    order = Order.objects.get(id=pk)
+    item = order.product
+
+    if request.method == "POST":
+        order.delete()
+        return redirect('/')
+
+    context = {
+        'item': item
+    }
+
+    return render(request, 'accounts/delete.html', context)
