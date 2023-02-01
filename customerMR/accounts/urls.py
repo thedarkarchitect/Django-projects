@@ -2,7 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index),
-    path('products/', views.products),
-    path('customer/', views.customer)
+    path('', views.index, name='index'),
+    path('products/', views.products, name='products'),
+    path('customer/<str:pk>/', views.customer, name='customer'),
+    path('create/', views.createOrder, name='createOrder')
 ]
