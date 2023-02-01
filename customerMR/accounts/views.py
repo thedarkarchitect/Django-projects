@@ -39,7 +39,8 @@ def customer(request, pk):
     }
     return render(request, 'accounts/customer.html', context)
 
-def createOrder(request):
+def createOrder(request, pk):
+    customer = Customer.objects.get(id=pk)
     form = OrderForm()
 
     if request.method == 'POST': #this checks if the method of the form is actually POST
@@ -49,7 +50,8 @@ def createOrder(request):
             return redirect('/')
 
     context = {
-        'form' : form
+        'form' : form,
+        'customer': customer
     }
 
     return render(request, 'accounts/order_form.html', context)
