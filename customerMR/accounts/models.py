@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 class Customer(models.Model):
     #we set null to True so that if field is empty no error is generated
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)#this means a customer can have one user and user can have only one customer so there is no confusion between user and customer
     name = models.CharField(max_length=200, null=True)
     phone = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200, null=True)

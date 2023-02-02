@@ -33,7 +33,11 @@ def registerPage(request):
 
             # this will allow newly registered customers to be assigned to customer group automatically 
             group = Group.objects.get(name='customer')
-            user.groups.add(group)
+            user.groups.add(group)#this adds to the customer group
+
+            Customer.objects.create(#this will now allow created account to automatically go to the customers db instead of being a user created in the user db of django          Customer.objects.create(
+                user=user
+            )
 
             messages.success(request, f"{username} has been created successfully")
             return redirect('loginPage')
@@ -74,6 +78,7 @@ def index(request):
     customers = Customer.objects.all()
 
     total_customers = customers.count()
+
     total_orders = orders.count()
     delivered = orders.filter(status='Delivered').count()
     pending = orders.filter(status='Pending').count()
@@ -87,8 +92,21 @@ def index(request):
     }
     return render(request, 'accounts/dashboard.html', context)
 
+@login_required(login_url='loginPage')
+@users_allowed(roles_allowed=['customer', ])
 def userPage(request):
-    context = {}
+    orders = request.user.customer.order_set.all()
+
+    total_orders = orders.count()
+    delivered = orders.filter(status='Delivered').count()
+    pending = orders.filter(status='Pending').count()
+
+    context = {
+        'orders': orders,
+        'total_orders':total_orders,
+        'delivered':delivered,
+        'pending': pending
+        }
     return render(request, 'accounts/user.html', context) 
 
 @login_required(login_url='loginPage')
