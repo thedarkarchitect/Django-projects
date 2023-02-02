@@ -4,27 +4,63 @@ from django.forms import inlineformset_factory
 from .models import *
 from .forms import OrderForm, RegisterForm
 from .filters import OrderFilter
-from django.contrib.auth.forms import UserCreationForm
+# from django.contrib.auth.forms import UserCreationForm
+
+#create login and restrictions
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
+#this show a flash message
+from django.contrib import messages
 
 # Create your views here.
 
 #views for the login and registrations
 def registerPage(request):
-    form = RegisterForm()
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
+    #if we dont want the logged in user to see the login page or register page
+    if request.user.is_authenticated:
+        return redirect('index')
+    else:
+        form = RegisterForm()
+        if request.method == 'POST':
+            form = RegisterForm(request.POST)
+            if form.is_valid():
+                form.save()
+                #get hold of user registering at that particular instance
+                user = form.cleaned_data.get('username')
+                messages.success(request, f"{user} has been created successfully")
+                return redirect('loginPage')
+
 
     context = {'form': form}
     return render(request, 'accounts/register.html', context)
 
-def login(request):
-    context = {}
-    return render(request, 'accounts/login.html', context)
+#we name is 'loginpage' so we don't have conflict with django login() method
+def loginPage(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        if request.method == "POST":
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('index')
+            else:
+                #this will show a message if login creditials are wrong
+                messages.info(request, 'Username Or Password is incorrect')
+           
+    context = {}
+    return render(request, 'accounts/loginPage.html', context)
+
+def userLogout(request):
+    logout(request)
+    return redirect('loginPage')
 
 #views for the pages
+@login_required(login_url='loginPage')#restricts access to every page decorator is on unless logged in
 def index(request):
     orders = Order.objects.all()
     customers = Customer.objects.all()
@@ -43,6 +79,11 @@ def index(request):
     }
     return render(request, 'accounts/dashboard.html', context)
 
+def userPage(request):
+    context = {}
+    return render(request, 'accounts/user.html', context) 
+
+@login_required(login_url='loginPage')
 def products(request):
     products = Product.objects.all()
 
@@ -63,6 +104,7 @@ def customer(request, pk):
     }
     return render(request, 'accounts/customer.html', context)
 
+@login_required(login_url='loginPage')
 def createOrder(request, pk):
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=6)#extra shows the number of the fields shown
 
@@ -84,6 +126,7 @@ def createOrder(request, pk):
 
     return render(request, 'accounts/order_form.html', context)
 
+@login_required(login_url='loginPage')
 def updateOrder(request, pk):
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)#this to populate the form using the item clicked on
@@ -99,6 +142,7 @@ def updateOrder(request, pk):
     }
     return render(request, 'accounts/order_form.html', context)
 
+@login_required(login_url='loginPage')
 def delete(request, pk):
     order = Order.objects.get(id=pk)
     item = order.product
