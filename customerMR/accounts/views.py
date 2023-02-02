@@ -9,6 +9,7 @@ from .filters import OrderFilter
 #create login and restrictions
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from .decorators import unauthenticated_user
 
 #this show a flash message
 from django.contrib import messages
@@ -35,23 +36,22 @@ def registerPage(request):
     context = {'form': form}
     return render(request, 'accounts/register.html', context)
 
+@unauthenticated_user
 #we name is 'loginpage' so we don't have conflict with django login() method
 def loginPage(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
-        if request.method == "POST":
-            username = request.POST.get('username')
-            password = request.POST.get('password')
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('index')
-            else:
-                #this will show a message if login creditials are wrong
-                messages.info(request, 'Username Or Password is incorrect')
-           
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            #this will show a message if login creditials are wrong
+            messages.info(request, 'Username Or Password is incorrect')
+
     context = {}
     return render(request, 'accounts/loginPage.html', context)
 
@@ -60,7 +60,8 @@ def userLogout(request):
     return redirect('loginPage')
 
 #views for the pages
-@login_required(login_url='loginPage')#restricts access to every page decorator is on unless logged in
+# @login_required(login_url='loginPage')#restricts access to every page decorator is on unless logged in
+@unauthenticated_user
 def index(request):
     orders = Order.objects.all()
     customers = Customer.objects.all()
@@ -83,13 +84,15 @@ def userPage(request):
     context = {}
     return render(request, 'accounts/user.html', context) 
 
-@login_required(login_url='loginPage')
+# @login_required(login_url='loginPage')
+@unauthenticated_user
 def products(request):
     products = Product.objects.all()
 
     return render(request, 'accounts/products.html', {
         'products': products
     })
+
 
 def customer(request, pk):
     customer = Customer.objects.get(id=pk)
@@ -104,7 +107,8 @@ def customer(request, pk):
     }
     return render(request, 'accounts/customer.html', context)
 
-@login_required(login_url='loginPage')
+# @login_required(login_url='loginPage')
+@unauthenticated_user
 def createOrder(request, pk):
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=6)#extra shows the number of the fields shown
 
@@ -126,7 +130,8 @@ def createOrder(request, pk):
 
     return render(request, 'accounts/order_form.html', context)
 
-@login_required(login_url='loginPage')
+# @login_required(login_url='loginPage')
+@unauthenticated_user
 def updateOrder(request, pk):
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)#this to populate the form using the item clicked on
@@ -142,7 +147,8 @@ def updateOrder(request, pk):
     }
     return render(request, 'accounts/order_form.html', context)
 
-@login_required(login_url='loginPage')
+# @login_required(login_url='loginPage')
+@unauthenticated_user
 def delete(request, pk):
     order = Order.objects.get(id=pk)
     item = order.product
