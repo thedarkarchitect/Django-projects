@@ -9,28 +9,34 @@ from .filters import OrderFilter
 #create login and restrictions
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .decorators import unauthenticated_user
-
+from django.contrib.auth.models import Group
+from .decorators import unauthenticated_user, users_allowed, admin_only
 #this show a flash message
 from django.contrib import messages
 
 # Create your views here.
 
 #views for the login and registrations
+@unauthenticated_user
 def registerPage(request):
     #if we dont want the logged in user to see the login page or register page
-    if request.user.is_authenticated:
-        return redirect('index')
-    else:
-        form = RegisterForm()
-        if request.method == 'POST':
-            form = RegisterForm(request.POST)
-            if form.is_valid():
-                form.save()
-                #get hold of user registering at that particular instance
-                user = form.cleaned_data.get('username')
-                messages.success(request, f"{user} has been created successfully")
-                return redirect('loginPage')
+    # if request.user.is_authenticated:
+    #     return redirect('index')
+    # else:
+    form = RegisterForm()
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            #get hold of user registering at that particular instance
+            username = form.cleaned_data.get('username')
+
+            # this will allow newly registered customers to be assigned to customer group automatically 
+            group = Group.objects.get(name='customer')
+            user.groups.add(group)
+
+            messages.success(request, f"{username} has been created successfully")
+            return redirect('loginPage')
 
 
     context = {'form': form}
@@ -60,8 +66,9 @@ def userLogout(request):
     return redirect('loginPage')
 
 #views for the pages
-# @login_required(login_url='loginPage')#restricts access to every page decorator is on unless logged in
-@unauthenticated_user
+@login_required(login_url='loginPage')#restricts access to every page decorator is on unless logged in
+# @users_allowed(roles_allowed=['admin', ])
+@admin_only
 def index(request):
     orders = Order.objects.all()
     customers = Customer.objects.all()
@@ -84,8 +91,8 @@ def userPage(request):
     context = {}
     return render(request, 'accounts/user.html', context) 
 
-# @login_required(login_url='loginPage')
-@unauthenticated_user
+@login_required(login_url='loginPage')
+@users_allowed(roles_allowed=['admin', ])
 def products(request):
     products = Product.objects.all()
 
@@ -93,7 +100,7 @@ def products(request):
         'products': products
     })
 
-
+@users_allowed(roles_allowed=['admin', ])
 def customer(request, pk):
     customer = Customer.objects.get(id=pk)
     orders = customer.order_set.all()#this will show the orders of the customer with the id
@@ -108,7 +115,7 @@ def customer(request, pk):
     return render(request, 'accounts/customer.html', context)
 
 # @login_required(login_url='loginPage')
-@unauthenticated_user
+@users_allowed(roles_allowed=['admin', ])
 def createOrder(request, pk):
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=6)#extra shows the number of the fields shown
 
@@ -131,7 +138,7 @@ def createOrder(request, pk):
     return render(request, 'accounts/order_form.html', context)
 
 # @login_required(login_url='loginPage')
-@unauthenticated_user
+@users_allowed(roles_allowed=['admin', ])
 def updateOrder(request, pk):
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)#this to populate the form using the item clicked on
@@ -148,7 +155,7 @@ def updateOrder(request, pk):
     return render(request, 'accounts/order_form.html', context)
 
 # @login_required(login_url='loginPage')
-@unauthenticated_user
+@users_allowed(roles_allowed=['admin', ])
 def delete(request, pk):
     order = Order.objects.get(id=pk)
     item = order.product
