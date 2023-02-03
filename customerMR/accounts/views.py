@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
 from .models import *
-from .forms import OrderForm, RegisterForm
+from .forms import OrderForm, RegisterForm, CustomerForm
 from .filters import OrderFilter
 # from django.contrib.auth.forms import UserCreationForm
 
@@ -19,28 +19,25 @@ from django.contrib import messages
 #views for the login and registrations
 @unauthenticated_user
 def registerPage(request):
-    #if we dont want the logged in user to see the login page or register page
-    # if request.user.is_authenticated:
-    #     return redirect('index')
-    # else:
-    form = RegisterForm()
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            #get hold of user registering at that particular instance
-            username = form.cleaned_data.get('username')
-
-            # this will allow newly registered customers to be assigned to customer group automatically 
-            group = Group.objects.get(name='customer')
-            user.groups.add(group)#this adds to the customer group
-
-            Customer.objects.create(#this will now allow created account to automatically go to the customers db instead of being a user created in the user db of django          Customer.objects.create(
-                user=user
-            )
-
-            messages.success(request, f"{username} has been created successfully")
-            return redirect('loginPage')
+    # if we dont want the logged in user to see the login page or register page
+    if request.user.is_authenticated:
+        return redirect('index')
+    else:
+        form = RegisterForm()
+        if request.method == 'POST':
+            form = RegisterForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                #get hold of user registering at that particular instance
+                username = form.cleaned_data.get('username')
+                # this will allow newly registered customers to be assigned to customer group automatically 
+                group = Group.objects.get(name='customer')
+                user.groups.add(group)#this adds to the customer group
+                Customer.objects.create(#this will now allow created account to automatically go to the customers db instead of being a user created in the user db of django          Customer.objects.create(
+                    user=user
+                )
+                messages.success(request, f"{username} has been created successfully")
+                return redirect('loginPage')
 
 
     context = {'form': form}
@@ -71,7 +68,6 @@ def userLogout(request):
 
 #views for the pages
 @login_required(login_url='loginPage')#restricts access to every page decorator is on unless logged in
-# @users_allowed(roles_allowed=['admin', ])
 @admin_only
 def index(request):
     orders = Order.objects.all()
@@ -108,6 +104,25 @@ def userPage(request):
         'pending': pending
         }
     return render(request, 'accounts/user.html', context) 
+
+@login_required(login_url='loginPage')
+@users_allowed(roles_allowed=['customer'])
+def accountSettings(request):
+    #the user will give you the current customer details
+    user = request.user.customer
+
+    form = CustomerForm(instance=user)
+
+    #handle submission
+    if request.method == "POST":
+        form = CustomerForm(request.POST, request.FILES,instance=customer)
+        if form.is_valid:
+            form.save()
+            
+    context = {
+        'form' : form,
+        }
+    return render(request, 'accounts/account_settings.html', context)
 
 @login_required(login_url='loginPage')
 @users_allowed(roles_allowed=['admin', ])

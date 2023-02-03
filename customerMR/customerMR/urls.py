@@ -15,8 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+#to make images work but only used to host images under development not production
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('', include('accounts.urls'))
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

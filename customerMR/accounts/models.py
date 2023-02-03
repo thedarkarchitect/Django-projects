@@ -5,10 +5,12 @@ from django.contrib.auth.models import User
 
 class Customer(models.Model):
     #we set null to True so that if field is empty no error is generated
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)#this means a customer can have one user and user can have only one customer so there is no confusion between user and customer
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)#this means a customer can have one user and user can have only one customer so there is no confusion between user and customer
     name = models.CharField(max_length=200, null=True)
     phone = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200, null=True)
+    #create a field to take the profile pic of the customer
+    profile_pic = models.ImageField(default="profile.jpg", null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     #to see the name of the customer instead of object we using string function
