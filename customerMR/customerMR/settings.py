@@ -79,8 +79,13 @@ WSGI_APPLICATION = 'customerMR.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'DEMOR_TEST',
+        'USER': 'postgres',
+        'PASSWORD':'nutellagum33',
+        'HOST':'localhost',
+        'POST':'5432'
+
     }
 }
 
@@ -135,3 +140,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #this will allow insertion of images like profile pictures by telling where the images are 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+#letting django know that we are sending emails
+#SMTP Configuration
+
+Email_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = 'True'
+EMAIL_HOST_USER = 'romanreynolds240@gmail.com'
+EMAIL_HOST_PASSWORD = 'my password but cant allow'
+#make to lower the gmail password security in gmail settings
