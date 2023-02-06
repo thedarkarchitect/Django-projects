@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('master.urls'))
+    path('', include('master.urls'), namespace="master"),
+    path('', include('users.urls', namespace="users"))
 ]
+
+#this is a url setting for the static files that allows files to be allowed
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'master'
+    'master',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,10 @@ RECAPTCHA_SECRET_KEY = "6LeKglgkAAAAAJPQRbHMfSj1k5Lny1aX6JkgiI0I"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = "users:sign-in" #this by default directs website visitors to the sign-in page
+LOGIN_REDIRECT_URL = "users:account" #this acts as a home page
+LOGOUT_REDIRECT_URL = "users:sign-in" #when someone logouts out they are redirected to the sign in page
+
+#lookout for the language code and base country variables
+BASE_COUNTRY = "USA"
