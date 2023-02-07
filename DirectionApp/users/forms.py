@@ -11,11 +11,11 @@ class UserForm(UserCreationForm):
     first_name = forms.CharField(max_length=200, required=True,widget=forms.TextInput(attrs={'placeholder':'*Your first name...'}))
     last_name = forms.CharField(max_length=200, required=True, widget=forms.TextInput(attrs={'placeholder': '*Your last name...'}))
     username = forms.EmailField(max_length=300, required=True, widget=forms.TextInput(attrs={'placeholder':'*Email..'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': '*Password...'}))
-    password2 =forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'*Confirm Password...'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': '*Password...', 'class':'password'}))
+    password2 =forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'*Confirm Password...', 'class':'password'}))
 
     #token for the reCaptcha
-    token = forms.CharField(widget=forms.HiddenInput())
+    token = forms.CharField(widget=forms.HiddenInput())#this will capture the token when user is created
 
     class Meta:
         model = User
@@ -27,7 +27,7 @@ class AuthForm(AuthenticationForm):
     """
 
     username = forms.EmailField(max_length=300, required=True, widget=forms.TextInput(attrs={'placeholder':'*Email..'}))
-    password = forms.CharField(widget=PasswordInput(attrs={'placeholder':'*Password..'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'*placeholder':'Password..', 'class':'password'}))
 
     class Meta:
         model = User
@@ -43,8 +43,8 @@ class UserProfileForm(forms.ModelForm):#this form is going to base on the Userpr
     county = forms.CharField(max_length=200, required=True, widget= forms.HiddenInput())
     post_code = forms.CharField(max_length=200, required=True, widget= forms.HiddenInput())
     county = forms.CharField(max_length=200, required=True, widget= forms.HiddenInput())
-    longitude = forms.CharField(max_length=200, required=True, widget= forms.HiddenInput())
-    latitude = forms.CharField(max_length=200, required=True, widget= forms.HiddenInput())
+    longitude = forms.CharField(max_length=100, required=True, widget= forms.HiddenInput())
+    latitude = forms.CharField(max_length=100, required=True, widget= forms.HiddenInput())
 
     class Meta:
         model = UserProfile
