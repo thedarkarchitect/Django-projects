@@ -13,7 +13,7 @@
 
         <div class="space-x-6">
             <a href="{% url 'items:new'%}" class="text-lg font-semi hover:text-gray-500">New item</a>
-            <a href="#" class="text-lg font-semi hover:text-gray-500">Browse</a>
+            <a href="{% url 'items:browse' %}" class="text-lg font-semi hover:text-gray-500">Browse</a>
 
             {% if request.user.is_authenticated %}
 

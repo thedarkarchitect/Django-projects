@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base.urls')),
+    path('inbox/', include('converstation.urls')),
     path('items/', include('items.urls')),
     path('dashboard/', include('dashboard.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)#this allows photos from the media file to be displayed on the screen of the frontpage
