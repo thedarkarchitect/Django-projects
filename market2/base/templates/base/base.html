@@ -15,9 +15,11 @@
             <a href="#" class="text-lg font-semi hover:text-gray-500">New item</a>
             <a href="#" class="text-lg font-semi hover:text-gray-500">Browse</a>
 
-            <a href="" class="px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Sign up</a>
-            <a href="" class="px-6 py-3 text-lg font-semibold bg-gray-500 text-white rounded-xl hover:bg-gray-700">Log in</a>
-
+            {% request.user.is_authenticated %}
+            {% else %}
+            <a href="{% url 'base:signup' %}" class="px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Sign up</a>
+            <a href="{% url 'base:login' %}" class="px-6 py-3 text-lg font-semibold bg-gray-500 text-white rounded-xl hover:bg-gray-700">Log in</a>
+            {% endif %}
         </div>
     </nav>
     <div class="px-6 py-6">
@@ -40,7 +42,7 @@
                     <a href="#" class="text-lg text-teal-500 hover:text-teal-700">About</a>
                 </li>
                 <li>
-                    <a href="{% url 'contact' %}" class="text-lg text-teal-500 hover:text-teal-700">Contact</a>
+                    <a href="{% url 'base:contact' %}" class="text-lg text-teal-500 hover:text-teal-700">Contact</a>
                 </li>
                 <li>
                     <a href="#" class="text-lg text-teal-500 hover:text-teal-700">Privacy policy</a>
