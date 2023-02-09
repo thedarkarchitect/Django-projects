@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Item
+from .forms import *
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def detail(request, pk):
@@ -12,3 +14,24 @@ def detail(request, pk):
         'related_items':related_items
     }
     return render(request, 'items/detail.html', context)
+
+@login_required
+def new(request):
+    form = NewItemForm()
+
+    if request.method == "POST":
+        form = NewItemForm(request.POST, request.FILES)#request.FILES allows us to get the files the user uploads
+        if form.is_valid():
+            item = form.save(commit=False)#this allows you to submit to the database without showing created_by field
+            item.created_by = request.user#this will stop the error by showing that we are authenticated
+
+            item.save()#then the form will be saved
+            return redirect('items:detail', pk=item.id)
+            
+
+    context ={
+        'form':form,
+        'title': 'New Item'
+    }
+
+    return render(request, 'items/form.html', context)
