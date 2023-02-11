@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {% for listing in listings %}
-        <p>{{listing.title}}</p>
-    {% endfor %}
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for listing in listings %}
+    <a href="{% url 'listing_retrieve' listing.id %}">{{listing.title}}</a>
+{% endfor %}
+
+{% endblock %}
