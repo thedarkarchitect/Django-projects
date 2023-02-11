@@ -2,12 +2,23 @@
 
 {% block content %}
 
-{{ listing.title }}
-<br>
-${{ listing.price}}
-<br>
-{{listing.address}}
-<br>
-<a href="{% url 'listing_list'%}">Go back</a>
+<div class="px-3py-2 bg-gray-100 rounded-sm">
+    <h3 class="text-3xl text-gray-900">{{ listing.title }}</h3>
+    <br>
+    <p class="text-gray-900">${{ listing.price }}</p>
+    <br>
+    <p class="text-gray-600 text-sm">{{ listing.address }}</p>
+    <br>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+        <a href="{% url 'listing_update' listing.id %}">Edit</a>
+    </button>
+
+    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+        <a href="{% url 'listing_delete' listing.id %}">Delete</a>
+    </button>
+    
+    
+</div>
+
 
 {% endblock %}

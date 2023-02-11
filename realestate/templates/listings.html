@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="px-6 py-6 ">
+    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+        <a href="{% url 'add_listing'%}">Create Listing</a>
+    </button>
+</div>
 
+<br>
+<div class="mt-2 px-3 py-2 bg-gray-100 rounded-sm">
 {% for listing in listings %}
-    <a href="{% url 'listing_retrieve' listing.id %}">{{listing.title}}</a>
+    <img src="{{ listing.image.url }}">
+    <p class="text-3xl text-gray-900">{{listing.title}}</p>
+    <br>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+        <a href="{% url 'listing_retrieve' listing.id %}">View details</a>
+    </button>
+    
 {% endfor %}
+</div>
 
 {% endblock %}

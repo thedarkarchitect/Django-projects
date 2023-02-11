@@ -24,7 +24,7 @@ def listing_create(request):
     form = ListingForm()
 
     if request.method == "POST":
-        form = ListingForm(request.POST)
+        form = ListingForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('/')
@@ -34,3 +34,25 @@ def listing_create(request):
     }
 
     return render(request, 'listing_create.html', context)
+
+
+def listing_update(request, pk):
+    listing = Listing.objects.get(id=pk)
+    form = ListingForm(instance=listing)#this will get the specific lising form you want to update
+
+    if request.method == "POST":
+        form = ListingForm(request.POST, instance=listing)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context = {
+        'form':form
+    }
+
+    return render(request, 'listing_update.html', context)
+
+def listing_delete(request, pk):
+    listing = Listing.objects.get(id=pk)#this will get the pk of the listing you click on 
+    listing.delete()
+    return redirect('/')
