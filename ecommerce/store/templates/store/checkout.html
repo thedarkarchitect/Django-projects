@@ -54,7 +54,7 @@
             <h3>Order Summary</h3>
             <hr>
             <div class="cart-row">
-                <div style="flex:2"><img class="row-image" src="{% static 'images/default.png' %}"></div>
+                <div style="flex:2"><img class="row-image" src="{{ product.image.url }}"></div>
                 <div style="flex:2"><p>Product 1</p></div>
                 <div style="flex:1"><p>$20.00</p></div>
                 <div style="flex:1"><p>x2</p></div>
