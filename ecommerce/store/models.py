@@ -38,11 +38,28 @@ class Order(models.Model):
     def __str__(self):
         return str(self.id)
 
+    @property
+    def get_cart_total(self):
+        orderitems = self.orderitem_set.all()#helps access the order items of an order
+        total = sum([item.get_total for item in orderitems])#this is going to total the number of items and get the total price the customer want to pay 
+        return total
+
+    @property
+    def get_cart_items(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.quantity for item in orderitems])#this will get the number of things in the cart using the quantity of items 
+        return total    
+
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)#this is a one to one relationship since and item need to align with  a product and order status
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)#this is a one to one relationship
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def get_total(self):#this will return the total price of the quantities interested in
+        total = self.product.price * self.quantity
+        return total
 
 class ShippingAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
