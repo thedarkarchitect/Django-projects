@@ -72,3 +72,12 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return self.address
+
+    @property
+    def shipping(self):#this loops thru all orders and looks for physical and digital products to see which are for shipping and which don't need to be shipped
+        shipping = False
+        orderitems = self.orderitem_set.all()
+        for i in orderitems:
+            if i.product.digital == False:
+                shipping = True
+        return shipping

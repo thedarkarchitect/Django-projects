@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import *
 from django.http import JsonResponse
 import json
+import datetime
 
 # Create your views here.
 def store(request):
@@ -52,7 +53,7 @@ def checkout(request):
         cartItems = order.get_cart_items
     else:
         #create empty cart for now for none-logged in users
-        order = { 'get_cart_total':0, 'get_cart_items':0}
+        order = { 'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
         items = []
         cartItems = order['get_cart_items']
 
@@ -87,3 +88,6 @@ def updateItem(request):
 		orderItem.delete()
 
 	return JsonResponse('Item was added', safe=False)
+
+def processOrder(request):
+    return JsonResponse('Payment submitted..', safe=False )
