@@ -26,11 +26,20 @@ def index(request):
 
 def result(request):
     print(guesses)
-    guess = guesses[-1]
+    guess = int(guesses[-1])
+    answer = ""
     
+    if guess == number:
+        answer = "green"
+    elif guess > number:
+        answer = "blue"
+    else:
+        answer = "red"
+
+
     context = {
         'guess': guess,
-        'number': number
-        
+        'number': number,
+        'answer':answer
     }
     return render(request, 'result.html', context)

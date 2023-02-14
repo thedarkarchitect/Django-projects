@@ -10,18 +10,20 @@
     
     <h1>results</h1>
 
-    {{ guess }}
-    {{ number }}
-    
-    {% if number == guess %}
-        <p> You got it </p>
-    {% elif number > guess %}
-        <p> that low guess a little higher </p>
-    {% elif number < guess  %}
-        <p> too high guess a little lower </p>
+    <br>
+    {% if answer == 'green' %}
+    <iframe src="https://giphy.com/embed/t3sZxY5zS5B0z5zMIz" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+        <h1 style="color: green;">You got it</h1>
+    {% elif answer == 'blue' %}
+    <iframe src="https://giphy.com/embed/1zlnq3I6Xfc6lipQTC" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+        <h1 style="color: blue;">too high guess lower</h1>
+    {% elif answer == 'red' %}
+    <iframe src="https://giphy.com/embed/ka6M66Z58QEcXadCd4" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+        <h1 style="color: red;">too low guess higher</h1>
     {% endif %}
 
     <br>
+
     <a href="/">Go back </a>
 
 </body>
