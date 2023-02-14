@@ -16,7 +16,7 @@ def index(request):
             # form.save() only save the form if it's going to the database
             guess = form.cleaned_data['guess']
             guesses.append(guess)
-            return redirect('/')
+            return redirect('/result/')
     
     context = {
         'number': number,
@@ -25,9 +25,12 @@ def index(request):
     return render(request, 'index.html', context)
 
 def result(request):
+    print(guesses)
+    guess = guesses[-1]
     
     context = {
-        'guesses':guesses
+        'guess': guess,
+        'number': number
         
     }
     return render(request, 'result.html', context)

@@ -9,16 +9,20 @@
 <body>
     
     <h1>results</h1>
-    
-    
-        {% if guesses[-1] == nummber %}
-            <p> You got it </p>
-        {% elif guesses[-1] < number %}
-            <p> that low guess a little higher </p>
-        {% else %}
-            <p> too high guess a little lower </p>
-        {% endif %}
 
+    {{ guess }}
+    {{ number }}
+    
+    {% if number == guess %}
+        <p> You got it </p>
+    {% elif number > guess %}
+        <p> that low guess a little higher </p>
+    {% elif number < guess  %}
+        <p> too high guess a little lower </p>
+    {% endif %}
+
+    <br>
     <a href="/">Go back </a>
+
 </body>
 </html>
