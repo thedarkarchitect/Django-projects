@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HigherLower Game</title>
+</head>
+<body>
+    
+    <h1>results</h1>
+    
+    
+        {% if guesses[-1] == nummber %}
+            <p> You got it </p>
+        {% elif guesses[-1] < number %}
+            <p> that low guess a little higher </p>
+        {% else %}
+            <p> too high guess a little lower </p>
+        {% endif %}
+
+    <a href="/">Go back </a>
+</body>
+</html>

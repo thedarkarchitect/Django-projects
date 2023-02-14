@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HigherLower Game</title>
+</head>
+<body>
+    <h1>
+        Guess a number between 0 and 9
+    </h1>
+    <iframe src="https://giphy.com/embed/Kehzyp9EFa2IYDte8P" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+    
+
+    <form name="form" method="POST" action="">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="submit"> 
+    </form>
+
+    {% if g == number %}
+        <h2>You got it</h2>
+    {% elif g < number%}
+        <h2>too low try again</h2>
+    {% else %}
+        <h2>too high try again</h2>
+    {% endif %}
+
+    <h1>{{ number }}</h1>
+    
+    
+    
+</body>
+</html>
