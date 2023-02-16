@@ -63,7 +63,47 @@
                                                 <td>{{ student.email }}</td>
                                                 <td>{{ student.field_of_study }}</td>
                                                 <td>{{ student.gpa }}</td>
-                                                <td>actions</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-outline-success me-1" href="{% url 'view_student' student.id %}" data-bs-toggle="modal" data-bs-target="#myModal{{student.id}}"><i class="fa-solid fa-circle-info"></i></button>
+                                                    
+                                                    <!-- modal - view_student -->
+                                                        <div class="modal" tabindex="-1" id="myModal{{student.id}}" aria-labelledby="myModallabel1" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                <h5 class="modal-title">Student: {{ student.first_name }} {{ student.last_name }}</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <ul class="list-unstyled">
+                                                                        <li>
+                                                                            Student Number: <strong> {{ student.student_number }}</strong>
+                                                                        </li>
+                                                                        <li>
+                                                                            First Name: <strong> {{ student.first_name }}</strong>
+                                                                        </li>
+                                                                        <li>
+                                                                            Last Name: <strong> {{ student.last_name }}</strong>
+                                                                        </li>
+                                                                        <li>
+                                                                            Email: <strong> {{ student.email }}</strong>
+                                                                        </li>
+                                                                        <li>
+                                                                            Field of Study: <strong> {{ student.field_of_study }}</strong>
+                                                                        </li>
+                                                                        <li>
+                                                                            GPA: <strong> {{ student.gpa }}</strong>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                </td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
