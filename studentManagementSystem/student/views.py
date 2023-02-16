@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from .models import *
-from forms import StudentForm
+from .forms import StudentForm
 
 
 # Create your views here.

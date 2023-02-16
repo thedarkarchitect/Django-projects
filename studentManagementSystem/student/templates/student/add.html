@@ -1,0 +1,11 @@
+{% extends 'student/base.html' %}
+
+{% load static %}
+{% block content %}
+    <form>
+        {% csrf_token %}
+        {{ form }}
+    </form>
+
+{% endblock %}
+
