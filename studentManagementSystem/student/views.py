@@ -20,7 +20,7 @@ def view_student(request, id):
 
 def add(request):
     #db data must be manipulated using a 
-    form  = StudentForm()#unbound form
+    # form  = StudentForm()#unbound form
     if request.method == 'POST':
         form = StudentForm(request.POST)#bound form 
         if form.is_valid():
@@ -33,7 +33,7 @@ def add(request):
             new_gpa = form.cleaned_data['gpa']
 
             new_student = Student(
-                student_name = new_student_number,
+                student_number = new_student_number,
                 first_name = new_first_name,
                 last_name = new_last_name,
                 email = new_email,
@@ -50,11 +50,35 @@ def add(request):
             }
 
             return render(request, 'student/add.html', context)
+            
     else:
         #otherwise display an empty form
         form = StudentForm()
-        context = {
-            'form': form
+
+    context = {
+        'form': form
         }
-        return (request, 'student/add/html', context)
+    return render(request, 'student/add.html', context)
+
+def edit(request, id):
+    if request.method == 'POST':
+        student = Student.objects.get(pk=id)#GETS The specific student to edit
+        form = StudentForm(request.POST, instance=student)#this fills form with that student to edit
+        if form.is_valid():
+            form.save()
+
+            context = {
+                'form':form,
+                'success': True
+            }
+
+            return render(request, 'student/edit.html', context)
+    else:
+        student = Student.objects.get(pk=id)
+        form = StudentForm(request.POST)
+
+    context = {
+        'form':form
+    }
+    return render(request, 'student/edit.html', context)
 
