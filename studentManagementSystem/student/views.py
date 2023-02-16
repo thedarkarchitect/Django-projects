@@ -82,3 +82,8 @@ def edit(request, id):
     }
     return render(request, 'student/edit.html', context)
 
+def delete(request, id):
+    if request.method == 'POST':
+        student = Student.objects.get(pk=id)
+        student.delete()
+    return HttpResponseRedirect(reverse('index'))#this will help us not to create or hardcode a url but have url that performs a task
