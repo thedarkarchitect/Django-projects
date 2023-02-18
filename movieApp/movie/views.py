@@ -9,6 +9,9 @@ def index(request):
     }
     return render(request, 'movie/index.html', context)
 
-def edit(request):
-    context={}
+def edit(request, id):
+    movies = Movie.objects.get(pk=id)
+    context={
+        'movies':movies
+    }
     return render(request, 'movie/edit.html', context)
