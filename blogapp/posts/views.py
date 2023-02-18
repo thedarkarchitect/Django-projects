@@ -7,3 +7,9 @@ def index(request):
     }
     
     return render(request, 'posts/index.html', context)
+
+def about(request):
+    return render(request, 'posts/about.html')
+
+def contact(request):
+    return render(request, 'posts/contact.html')
