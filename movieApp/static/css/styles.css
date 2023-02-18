@@ -1,0 +1,44 @@
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 18px;
+	line-height: 1.5;
+	font-weight: 300;
+	color: #333;
+	font-family: "Nunito Sans", sans-serif;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	height: 100vh;
+	background-color: #ecf0f9;
+	background-attachment: fixed;
+}
+
+
+
+.container.add {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+.rating {
+    color: #E4BB23;
+}
+.review {
+    font-style: italic;
+}
+
+.movie_gens {
+	font-size: 11.5px;
+}
+
+.title {
+	font-weight: bold;
+}
+
+.release_date {
+	font-weight: normal;
+}

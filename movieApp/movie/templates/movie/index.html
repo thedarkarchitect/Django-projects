@@ -1,0 +1,36 @@
+{% extends 'movie/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <h1 class="heading">My Top 10 Movies</h1>
+  <p class="description">These are my all time favourite movies.</p>
+
+  <div id="carouselExample" class="carousel slide">
+    <div class="carousel-inner">
+      {% for movie in movies %}
+      <div class="carousel-item active">
+        <a href="{% url 'edit' %}"><img src="{{ movie.img_url }}" class="d-block w-100" alt="movie_pic"></a>
+        
+      </div>
+      {% endfor %}
+    </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+  </div>
+</div>
+
+
+<br>
+
+<div class="text-center add">
+<a href="#" class="button btn btn-primary">Add Movie</a>
+</div>
+
+{% endblock %}
