@@ -10,7 +10,7 @@
     <div class="carousel-inner">
       {% for movie in movies %}
       <div class="carousel-item active">
-        <a href="{% url 'edit' movie.id %}"><img src="{{ movie.img_url }}" class="d-block w-100" alt="movie_pic"></a>
+        <a href="{% url 'info' movie.id %}"><img src="{{ movie.img_url }}" class="d-block w-100" alt="movie_pic"></a>
         
       </div>
       {% endfor %}

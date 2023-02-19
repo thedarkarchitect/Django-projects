@@ -1,0 +1,16 @@
+{% extends 'movie/base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>Edit Movie Info</h1>
+
+<br>
+
+<form method="POST" action="">
+    {% csrf_token %}
+    {{ form }}
+    <a href="#" class="btn btn-outline-primary">Update</a>
+    <a href="#" class="btn btn-outline-danger">Delete</a>
+</form>
+
+{% endblock %}

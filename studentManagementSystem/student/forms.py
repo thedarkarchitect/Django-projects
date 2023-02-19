@@ -14,7 +14,7 @@ class StudentForm(forms.ModelForm):
             'gpa': 'Enter GPA',
         }
 
-        widget = {#customize the look of the forms
+        widgets = {#customize the look of the forms
         'student_number': forms.NumberInput(attrs={'class': 'form-control'}),
         'first_name': forms.TextInput(attrs={ 'class': 'form-control'}) ,
         'last_name': forms.TextInput(attrs={ 'class': 'form-control'}),

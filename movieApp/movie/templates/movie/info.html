@@ -1,0 +1,23 @@
+{% extends 'movie/base.html' %}
+{% load static %}
+{% block content %}
+<h1 class="d-flex justify-content-center"> Movie Info </h1>
+<br>
+
+<div class="d-flex justify-content-center">
+    <div class="card " style="width: 18rem;">
+        <div class="card-body bg-dark text-light">
+            <h5 class="card-title">{{ movies.title }} </h5>
+            <br>
+            <h6 class="card-subtitle mb-2 ">{{ movies.review }}</h6>
+            <br>
+            <p class="card-text">{{ movies.description }}</p>
+
+            <a class="btn btn-primary" href="{% url 'update' movies.id %}">Edit</a>
+            
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
