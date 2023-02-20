@@ -2,15 +2,19 @@
 {% load static %}
 {% block content %}
 
-<h1>Edit Movie Info</h1>
+<h1 class="d-flex justify-content-center">Edit Movie Info</h1>
 
 <br>
 
-<form method="POST" action="">
-    {% csrf_token %}
-    {{ form }}
-    <a href="#" class="btn btn-outline-primary">Update</a>
-    <a href="#" class="btn btn-outline-danger">Delete</a>
-</form>
+<div class="d-flex justify-content-center" >
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button  class="btn btn-outline-primary" type="submit">Update</button>
+        <button class="btn btn-outline-danger" type="submit">Delete</button>
+    </form>
+
+</div>
+
 
 {% endblock %}
