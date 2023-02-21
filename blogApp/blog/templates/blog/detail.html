@@ -16,16 +16,26 @@
 
                             <hr>
 
-                            <form method="POST" action="">
+                            <form method="POST" action="" class="mb-6">
                                 {% csrf_token %}
                                 {{ form.as_p }}
                                 <div claas="field">
                                     <div class="control">
-                                        <button class="btn btn-outline-success">Comment</button>
+                                        <button class="button is-success">Comment</button>
                                     </div>
-
                                 </div>
                             </form>
+
+                            <!-- this shows the comments -->
+                            {% for comment in post.comments.all %}
+                                <article class="media  box">
+                                    <div class="media-content">
+                                        <strong>{{ comment.name }} </strong><small>{{ comment.created_at | timesince }} ago</small>
+                                        <br>
+                                        {{ comment.body }}
+                                    </div>
+                                </article>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
