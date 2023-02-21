@@ -13,6 +13,8 @@
                         <div class="content is-medium">
                             <h1 class="title">{{ post.title }}</h1>
                             <p>{{ post.body }}</p>
+                            
+                            <p><small>Category: <a href="{% url 'category_detail' post.category.slug %}">{{ post.category }}</a></small></p>
 
                             <hr>
 

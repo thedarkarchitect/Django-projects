@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post
+from .models import Post, Category
 from .forms import CommentForm
 
 # Create your views here.
-def detail(request, slug):
+def detail(request, category_slug, slug):
     post = get_object_or_404(Post, slug=slug)#this will return post or a 404 if post not found
 
     #this method below is tringer when the submit button is hit to send the data from comments to the database.
@@ -23,3 +23,11 @@ def detail(request, slug):
         'form': form,
     }
     return render(request, 'blog/detail.html', context)
+
+def category(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+
+    context = {
+        'category' : category
+    }
+    return render(request, 'blog/category.html', context)
