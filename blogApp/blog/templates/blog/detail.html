@@ -3,5 +3,35 @@
 {% block title %} {{post.title}} | {% endblock %}
 
 {% block content %}
-<h1>{{ post.title }}</h1>
+
+<section class="hero ">
+    <div class="hero-body">
+        <div class="container">
+            <section class="section">
+                <div class="columns">
+                    <div class="column is-8 is-offset-2">
+                        <div class="content is-medium">
+                            <h1 class="title">{{ post.title }}</h1>
+                            <p>{{ post.body }}</p>
+
+                            <hr>
+
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <div claas="field">
+                                    <div class="control">
+                                        <button class="btn btn-outline-success">Comment</button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
 {% endblock %}

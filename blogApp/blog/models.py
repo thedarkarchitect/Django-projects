@@ -8,6 +8,16 @@ class Post(models.Model):
     body  = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.title
+
     #if you want to order the blog in the views you use the class meta
     class Meta:
-        ordering = ('-create_at', )#subtracts the first order from the second and the first goes on top in html
+        ordering = ('-created_at', )#the "-"prefix takes the latest entry and puts on top and the old ones at he bottom
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='comment', on_delete=models.CASCADE)#this will shoow that comments belog to a certain post
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
