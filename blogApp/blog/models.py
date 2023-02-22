@@ -13,12 +13,23 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
 
 class Post(models.Model):
+    #this is the choices user will see and the values will be what is shown in the database
+    ACTIVE = 'active'
+    DRAFT = 'draft'
+
+    CHOICES_STATUS = (
+        #these will be seen in the admin parnel
+        (ACTIVE, 'Active'),
+        (DRAFT, 'Draft')
+    )
+
     category = models.ForeignKey(Category, related_name='posts', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     slug = models.SlugField()#this is an internet address for titles in the url
     intro = models.TextField()
     body  = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=CHOICES_STATUS, default=ACTIVE)
 
     def __str__(self):
         return self.title
@@ -34,3 +45,6 @@ class Comment(models.Model):
     email = models.EmailField()
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

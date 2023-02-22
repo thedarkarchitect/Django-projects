@@ -29,7 +29,7 @@
                             </form>
 
                             <!-- this shows the comments -->
-                            {% for comment in post.comments.all %}
+                            {% for comment in posts %}
                                 <article class="media  box">
                                     <div class="media-content">
                                         <strong>{{ comment.name }} </strong><small>{{ comment.created_at | timesince }} ago</small>

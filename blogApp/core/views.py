@@ -4,7 +4,7 @@ from blog.models import Post
 # Create your views here.
 
 def frontpage(request):
-    posts = Post.objects.all()
+    posts = Post.objects.filter(status=Post.ACTIVE)#this is going to filter the posts shown according to the choices
 
     context = {
         'posts':posts
@@ -14,3 +14,4 @@ def frontpage(request):
 
 def about(request):
     return render(request, 'core/about.html')
+
