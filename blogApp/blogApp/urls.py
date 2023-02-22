@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from core.views import frontpage, about
+from core.views import frontpage, about,robots_txt
 from django.conf.urls.static import static
 from django.conf import settings
 #sitemaps imports
@@ -28,6 +28,7 @@ sitemaps = {'category':CategorySitemap, 'post':PostSitemap}
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('sitemap.xml', sitemap, {'sitemaps':sitemaps}),
+    path('robots.txt', robots_txt, name='robots_txt'),
     path('about/', about, name='about'),
     path('', include('blog.urls')),
     path('', frontpage, name='frontpage')

@@ -8,6 +8,10 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return '/%s/' %self.slug
+    
+
     class Meta:
         ordering = ('title',)
         verbose_name_plural = 'Categories'
@@ -34,6 +38,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return '/%s/%s/' % (self.category.slug, self.slug)
 
     #if you want to order the blog in the views you use the class meta
     class Meta:
