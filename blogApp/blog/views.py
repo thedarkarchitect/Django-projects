@@ -1,3 +1,4 @@
+from django.db.models import Q #used to search in multiple fields
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Category
 from .forms import CommentForm
@@ -35,10 +36,10 @@ def category(request, slug):
     return render(request, 'blog/category.html', context)
 
 def search(request):
-    query = request.Get.get('query', '') #this allows you to get ehat is passed into the empty string
-    posts = Post.objects.filter(title__icontains=query)#this goes to the databse and pulls what is passed to the query 
+    query = request.GET.get('query', '') #this allows you to get ehat is passed into the empty string
+    posts = Post.objects.filter(status=Post.ACTIVE).filter(Q(title__icontains=query) | Q(intro__icontains=query) | Q(body__icontains=query))#this goes to the databse and pulls what is passed to the query 
     
     context={
         'posts' : posts
     }
-    return render(request, 'core/search.html', context)
+    return render(request, 'blog/search.html', context)

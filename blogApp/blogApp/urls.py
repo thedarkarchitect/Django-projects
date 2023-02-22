@@ -16,10 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from core.views import frontpage, about
+from django.conf.urls.static import static
+from django.conf import settings
+#sitemaps imports
+from django.contrib.sitemaps.views import sitemap
+from blogApp.sitemaps import CategorySitemap, PostSitemap
+
+sitemaps = {'category':CategorySitemap, 'post':PostSitemap}
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('sitemap.xml', sitemap, {'sitemaps':sitemaps}),
     path('about/', about, name='about'),
     path('', include('blog.urls')),
     path('', frontpage, name='frontpage')
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

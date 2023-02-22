@@ -10,6 +10,11 @@
             <section class="section">
                 <div class="columns">
                     <div class="column is-8 is-offset-2">
+                        {% if post.image %}
+                                <figure>
+                                    <img src="{{ post.image.url }}">
+                                </figure>
+                        {% endif %}
                         <div class="content is-medium">
                             <h1 class="title">{{ post.title }}</h1>
                             <p>{{ post.body }}</p>

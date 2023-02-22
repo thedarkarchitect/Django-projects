@@ -120,6 +120,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_URL = '/media/' #this just sets the location of where the media files should go
+MEDIA_ROOT = BASE_DIR / 'media/' #tells server where media files are
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
