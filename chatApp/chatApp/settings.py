@@ -39,13 +39,13 @@ LOGIN_URL = '/login/'#and the login url will follow the login view specification
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'channels',
     'core',
     'room'
 ]
@@ -79,7 +79,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'chatApp.wsgi.application'
-ASGI_APPLICATION = 'djangochat.asgi.application'#this for the chat connections
+ASGI_APPLICATION = 'chatApp.asgi.application'#this for the chat connections
+
+#messages send should be stored in the memory of the server
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
 
 
 # Database
