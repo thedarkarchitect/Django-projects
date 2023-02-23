@@ -28,6 +28,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#this here specifies that if the logout button is hit it takes you to the specified url
+
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/rooms/'#this is where you will be redirected on login 
+LOGIN_URL = '/login/'#and the login url will follow the login view specifications that if you not authenticated
+
+
 
 # Application definition
 
@@ -39,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
-    'core'
+    'core',
+    'room'
 ]
 
 MIDDLEWARE = [

@@ -16,7 +16,7 @@ def signup(request):
 
             return redirect('frontpage')
     else:
-        form = SignUpForm
+        form = SignUpForm()
 
     context = {
         'form' : form
